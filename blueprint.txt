@@ -1,0 +1,139 @@
+chess - design blueprint
+
+
+position
+{int rank, file}
+
+enum color {black, white}
+
+abstract class coin
+{
+	color
+	position
+	
+	
+	coin(color, position)
+	{
+	 this.color = color;
+	 this.position = position;
+	}
+	
+	abstract bool isValidMove(position from, position to);
+	abstract Set<position> GetValidMoves();
+}
+
+pawn : coin
+{	
+}
+
+rook : coin
+{	
+}
+
+knight : coin
+{
+}
+
+bishop : coin
+{
+}
+
+king : coin
+{
+}
+
+queen : coin
+{
+}
+
+
+move
+{
+	position from, to
+	coin 
+}
+
+
+class player
+{
+	color
+	
+	player(enum color)
+	{
+		this.color = color;
+	}
+	
+	move play()
+	{
+	}
+	
+	move getUserInput()
+	{
+	
+	}
+}
+
+
+
+class GameManager
+{
+	Dictionary<position, coin> board;
+	player player1, player2;
+	
+	stack<move> moves;
+	
+	
+	GameManager()
+	{
+		position pos_white_king = new position(x,y);
+		white_king = new king(color.white, pos_white_king );
+		
+		board[pos_white_king] = white_king;
+		
+		white_pawn1 = new pawn(color.white, new position() );
+		
+		...//instantiate all coins place all coins on board in their initial positions
+		...//use abstract factory pattern here
+		
+		
+		player1 = new player(color.white, board);
+		player2 = new player(color.black, board);
+		moves = new stack<move>();
+		
+		ManageGame();
+	}
+	
+	void ManageGame()
+	{
+		while(!IsGameOver())
+		{
+			player = GetPlayer();
+			move = player.play();
+			coin = move.coin;
+			if(coin.isValidMove(move))
+			{
+				moves.add(move);
+				coin.position = move.to;
+				board.remove(move.from);
+				board[move.to] = coin;
+			}
+		}
+	}
+	
+	bool IsGameOver()
+	{
+		
+	}
+	
+	player GetPlayer()
+	{
+		if(moves.empty)
+			return player1
+		
+		lastmovecolor = moves.peek().color
+		if(lasmovecolor=white)
+			return player2
+		return player1;
+	}
+	
+}
