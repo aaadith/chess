@@ -23,11 +23,13 @@ abstract class coin
 }
 
 pawn : coin
-{	
+{
+	startingposition //to store the position at the beginning of game; will be needed to move by two positions in first move and en-passant
 }
 
 rook : coin
-{	
+{
+	hasmoved	//for castling
 }
 
 knight : coin
@@ -40,6 +42,7 @@ bishop : coin
 
 king : coin
 {
+	hasmoved 	//for castling
 }
 
 queen : coin
@@ -61,12 +64,10 @@ move
 class player
 {
 	color
-	gameManager
 	
-	player(enum color, GameManager gameManager)
+	player(enum color)
 	{
 		this.color = color;
-		this.gameManager = gameManager;
 	}
 	
 	move play()
@@ -75,9 +76,7 @@ class player
 		get move m from user input
 		return m
 	}
-	
-	
-	
+		
 	getUserInput()
 	{
 	
@@ -85,16 +84,13 @@ class player
 }
 
 
-
-class GameManager
+class Board
 {
-	Dictionary<position, coin> board;
-	player player1, player2;
-	
-	stack<move> moves;
-	
-	
-	GameManager()
+	Dictionary<position, coin> position_by_coin;
+	Dictionary<coin, position> coin_by_position;
+
+
+	Board()
 	{
 		position pos_white_king = new position(x,y);
 		white_king = new king(color.white, pos_white_king );
@@ -105,10 +101,37 @@ class GameManager
 		
 		...//instantiate all coins place all coins on board in their initial positions
 		...//use abstract factory pattern here
+	}
+	
+	
+	updateBoard(move)
+	{
+		position_by_coin.remove(move.from);
+		position_by_coin[move.to] = move.coin;
 		
+		coin_by_position[move.coin] = move.to;
 		
-		player1 = new player(color.white, board);
-		player2 = new player(color.black, board);
+		if(move.capturedcoin!=null)
+			coin_by_position.remove(move.capturedcoin)
+
+	}
+}
+
+
+
+class GameManager
+{
+	board;
+	player player1, player2;
+	
+	stack<move> moves;
+	
+	
+	GameManager()
+	{
+		board = new Board();
+		player1 = new player(color.white);
+		player2 = new player(color.black);
 		moves = new stack<move>();
 		
 		ManageGame();
@@ -143,9 +166,7 @@ class GameManager
 				
 			moves.add(move);
 			coin.position = move.to;
-			board.remove(move.from);
-			board[move.to] = coin;
-
+			board.update(move);
 		}
 	}
 	
