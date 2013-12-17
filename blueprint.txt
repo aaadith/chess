@@ -115,6 +115,33 @@ class Board
 			coin_by_position.remove(move.capturedcoin)
 
 	}
+	
+	
+	isCheckResolved(move)
+	{
+		//checkpoint board at current state
+		//get possible moves for opposite players coins after current move
+		//check if any of these moves leads to check
+	}
+	
+	isCheck(move)
+	{
+		//get possible moves for current players coins after current move
+		//check if any of those moves contains opposite player's king's position
+	}
+	
+	isCheckMate(move)
+	{
+		//check if opposite king can move to any non-check position after this move
+		//if not
+		//for each of current player's coin c in board:
+		// get all valid moves
+		// check if any of the moves can resolve check
+	}
+
+	
+	
+	
 }
 
 
@@ -156,13 +183,13 @@ class GameManager
 
 			move lastmove = moves.peek();
 
-			if(lastmove.ischeck && !isCheckResolved())
+			if(lastmove.ischeck && !board.isCheckResolved(move))
 				continue
 			
-			m.isCheck = isCheck();
+			m.isCheck = board.isCheck(move);
 	
 			if(m.isCheck)
-				m.isCheckMate = isCheckMate();
+				m.isCheckMate = board.isCheckMate(move);
 				
 			moves.add(move);
 			coin.position = move.to;
@@ -201,26 +228,5 @@ class GameManager
 		
 	}
 	
-	isCheckResolved()
-	{
-		//checkpoint board at current state
-		//get possible moves for opposite players coins after current move
-		//check if any of these moves leads to check
-	}
-	
-	isCheck()
-	{
-		//get possible moves for current players coins after current move
-		//check if any of those moves contains opposite player's king's position
-	}
-	
-	isCheckMate()
-	{
-		//check if king can move to any non-check position
-		//if not
-		//for each of current player's coin c in board:
-		// get all valid moves
-		// check if any of the moves can resolve check
-	}
 	
 }
