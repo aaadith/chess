@@ -51,6 +51,10 @@ move
 {
 	position from, to
 	coin 
+	bool isCheck
+	bool isCheckMate
+	capturedcoin 
+
 }
 
 
