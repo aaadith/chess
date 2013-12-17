@@ -57,15 +57,81 @@ move
 class player
 {
 	color
+	gameManager
 	
-	player(enum color)
+	player(enum color, GameManager gameManager)
 	{
 		this.color = color;
+		this.gameManager = gameManager;
 	}
 	
 	move play()
 	{
+		move result = null
+		
+		move lastmove = gameManager.moves.peek();
+
+		if(lastmove.isCheck)
+			lastmove.isCheckmate = isCheckmate();
+		
+		if(lastmove.ischeckmate)
+			return result
+		
+		move m = getUserInput();
+		coin c = m.coin;
+		
+		//check if player is moving his coin
+		if(player.color != c.color)
+			return result
+		
+		to = m.to;
+		
+		if(!c.getValidMoves().contains(to))
+			return result
+		
+		if(!isValidTargetPosition(to))
+			return result
+			
+		if(lastmove.ischeck && !isCheckResolved())
+			return result
+		
+		m.isCheck = isCheck();
+		
+			
+		result = m;
+		return result;
 	}
+	
+	isValidTargetPosition(position to)
+	{
+		//a target position is valid if:
+		//1. it is currently empty 
+		//2. or it is occupied by opposite player's coin
+		
+	}
+	
+	isCheckResolved()
+	{
+		//checkpoint board at current state
+		//get possible moves for opposite players coins after current move
+		//check if any of these moves leads to check
+	}
+	
+	isCheck()
+	{
+		//get possible moves for current players coins after current move
+		//check if any of those moves contains opposite player's king's position
+	}
+	
+	isCheckMate()
+	{
+		//check if king can move to any non-check position
+		//if not
+		//for each of current player's coin c in board:
+		// get all valid moves
+		// check if any of the moves can resolve check
+	}
+	
 	
 	move getUserInput()
 	{
