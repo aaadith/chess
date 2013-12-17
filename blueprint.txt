@@ -139,7 +139,10 @@ class Board
 		// check if any of the moves can resolve check
 	}
 
+	WillMoveLeadToCheckToSelf(move)
+	{
 	
+	}
 	
 	
 }
@@ -179,6 +182,9 @@ class GameManager
 				continue
 				
 			if(!isValidTargetPosition(move.to))
+				continue
+			
+			if(board.WillMoveLeadToCheckToSelf(move))
 				continue
 
 			move lastmove = moves.peek();
